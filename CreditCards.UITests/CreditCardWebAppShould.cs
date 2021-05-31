@@ -10,12 +10,12 @@ namespace CreditCards.UITests
     public class CreditCardWebAppShould
     {
         [Fact]
-        [Trait("Category","Smoke")]
+        [Trait("Category", "Smoke")]
         public void LoadApplicationPage()
         {
             using(IWebDriver driver = new FirefoxDriver())
             {
-
+                driver.Navigate().GoToUrl("http://localhost:44108/");
             }
         }
     }
