@@ -108,7 +108,7 @@ namespace CreditCards.UITests
                 DemoHelper.Pause();
 
                 IWebElement randomGreetingApplyLink =
-                    driver.FindElement(By.XPath("/html/body/div/div[4]/div/p/a"));
+                    driver.FindElement(By.XPath("//a[text()[contains(.,'- Apply Now!')]]"));
                 randomGreetingApplyLink.Click();
                 DemoHelper.Pause();
 
