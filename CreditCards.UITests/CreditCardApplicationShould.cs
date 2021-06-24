@@ -221,6 +221,14 @@ namespace CreditCards.UITests
                 DemoHelper.Pause();
                 businessSource.SelectByIndex(4); // By index of the collection
                 DemoHelper.Pause();
+
+                driver.FindElement(By.Id("TermsAccepted")).Click();
+
+                // 2 Ways to submit a form
+                //driver.FindElement(By.Id("SubmitApplication")).Click(); // 1.
+                driver.FindElement(By.Id("Single")).Submit(); // 2.
+
+                DemoHelper.Pause(5000);
             }
         }
     }
