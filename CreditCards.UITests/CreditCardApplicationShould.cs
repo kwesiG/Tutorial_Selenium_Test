@@ -3,6 +3,7 @@ using Xunit;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Support.UI;
 
 namespace CreditCards.UITests
 {
@@ -40,13 +41,17 @@ namespace CreditCards.UITests
                 driver.Navigate().GoToUrl(HomeUrl);
                 DemoHelper.Pause();
 
-                IWebElement carouselNext =
-                    driver.FindElement(By.CssSelector("[data-slide='next']"));
-                carouselNext.Click();
-                DemoHelper.Pause(1000);// Allow carousel to scroll
+                //IWebElement carouselNext =
+                //    driver.FindElement(By.CssSelector("[data-slide='next']"));
+                //carouselNext.Click();
 
-                IWebElement applyLink = driver.FindElement(By.LinkText("Easy: Apply Now!"));
-                applyLink.Click();
+                WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(11));
+                IWebElement applyLink =
+                    wait.Until((d) => d.FindElement(By.LinkText("Easy: Apply Now!")));
+                applyLink.Click(); 
+
+                //IWebElement applyLink = driver.FindElement(By.LinkText("Easy: Apply Now!"));
+                //applyLink.Click();
 
                 DemoHelper.Pause();
 
