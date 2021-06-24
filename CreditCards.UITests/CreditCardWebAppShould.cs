@@ -98,5 +98,22 @@ namespace CreditCards.UITests
                 Assert.NotEqual(initialToken, reloadedToken);
             }
         }
+
+        [Fact]
+        public void DisplayProductsAndRates()
+        {
+            using (IWebDriver driver = new FirefoxDriver())
+            {
+                driver.Navigate().GoToUrl(HomeUrl);
+                DemoHelper.Pause();
+
+                IWebElement firstTableCell = driver.FindElement(By.TagName("td"));
+                string firstProduct = firstTableCell.Text;
+
+                Assert.Equal("Easy Credit Card", firstProduct);
+                
+                //TODO: Check the rest of the tables
+            }
+        }
     }
 }
