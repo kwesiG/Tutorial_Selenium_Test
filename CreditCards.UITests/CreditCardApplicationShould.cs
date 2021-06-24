@@ -173,5 +173,55 @@ namespace CreditCards.UITests
                 Assert.Equal(EasyApplyUrl, driver.Url);
             }
         }
+
+        [Fact]
+        public void BeSubmittedWhenValid()
+        {
+            using (IWebDriver driver = new FirefoxDriver())
+            {
+                driver.Navigate().GoToUrl(EasyApplyUrl);
+
+                //IWebElement firstNameField = driver.FindElement(By.Id("FirstName"));
+                //firstNameField.Text = "Kwesi"; NOTE: Text on a textBox property cannot be set this way
+                //firstNameField.SendKeys("Sarah");
+
+                driver.FindElement(By.Id("FirstName")).SendKeys("Sarah"); //When used like this the returned value is void so does not need to be assigned
+                DemoHelper.Pause();
+                driver.FindElement(By.Id("LastName")).SendKeys("Smith");
+                DemoHelper.Pause();
+                driver.FindElement(By.Id("FrequentFlyerNumber")).SendKeys("123456-A");
+                DemoHelper.Pause();
+                driver.FindElement(By.Id("Age")).SendKeys("18");
+                DemoHelper.Pause();
+                driver.FindElement(By.Id("GrossAnnualIncome")).SendKeys("50000");
+                DemoHelper.Pause();
+                //IWebElement singleRadioButton = driver.FindElement(By.Id("Single"));
+                //singleRadioButton.Click();
+                driver.FindElement(By.Id("Single")).Click();// Simplified method for clicking
+                DemoHelper.Pause();
+                IWebElement businessSourceSelectElement =
+                    driver.FindElement(By.Id("BusinessSource"));
+                SelectElement businessSource = new SelectElement(businessSourceSelectElement);
+
+                // Check default selected option is correct
+                Assert.Equal("I'd Rather Not Say", businessSource.SelectedOption.Text);
+                // Get all the available options
+                foreach (IWebElement option in businessSource.Options)
+                {
+                    output.WriteLine($"Value: {option.GetAttribute("value")} Text: {option.Text}"); // This is essentially a dictionary key value pair
+                    // where the Attribute  is the Key and the value is the text
+                }
+                Assert.Equal(5, businessSource.Options.Count);
+
+                // Select an option
+
+                businessSource.SelectByValue("Email"); // By value or 'Key'
+                DemoHelper.Pause();
+                businessSource.SelectByText("Internet Search"); // By value shown to the user or 'value'
+                DemoHelper.Pause();
+                businessSource.SelectByIndex(4); // By index of the collection
+                DemoHelper.Pause();
+            }
+        }
     }
 }
