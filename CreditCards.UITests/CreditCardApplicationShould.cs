@@ -4,6 +4,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
+using Xunit.Abstractions;
 
 namespace CreditCards.UITests
 {
@@ -14,6 +15,13 @@ namespace CreditCards.UITests
         private const string AboutUrl = "http://localhost:44108/Home/About";
         private const string ApplyUrl = "http://localhost:44108/Home/Apply";
         private const string EasyApplyUrl = "http://localhost:44108/Apply";
+
+        private readonly ITestOutputHelper output;
+
+        public CreditCardApplicationShould(ITestOutputHelper output)
+        {
+            this.output = output;
+        }
 
         [Fact]
         public void BeInitiatedFromHomePage_NewLowRate()
@@ -62,6 +70,26 @@ namespace CreditCards.UITests
         }
 
         [Fact]
+        public void BeInitiatedFromHomePage_EasyApplication_Prebuilt_Condiotions()
+        {
+            using (IWebDriver driver = new FirefoxDriver())
+            {
+                driver.Navigate().GoToUrl(HomeUrl);
+                DemoHelper.Pause();
+
+                WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(11));
+                IWebElement applyLink =
+                    wait.Until(ExpectedConditions.ElementToBeClickable(By.PartialLinkText("- Apply Now!")));
+                applyLink.Click();
+
+                DemoHelper.Pause();
+
+                Assert.Equal("Credit Card Application - Credit Cards", driver.Title);
+                Assert.Equal(EasyApplyUrl, driver.Url);
+            }
+        }
+
+        [Fact]
         public void BeInitiatedFromHomePage_CustomerService()
         {
             using (IWebDriver driver = new FirefoxDriver())
@@ -77,6 +105,29 @@ namespace CreditCards.UITests
                 DemoHelper.Pause(1000);// allow carousel time to scroll
 
                 IWebElement AppylLink = driver.FindElement(By.ClassName("customer-service-apply-now"));
+                AppylLink.Click();
+                DemoHelper.Pause();
+
+                Assert.Equal("Credit Card Application - Credit Cards", driver.Title);
+                Assert.Equal(EasyApplyUrl, driver.Url);
+            }
+        }
+
+        [Fact]
+        public void BeInitiatedFromHomePage_CustomerService_ImplicitWait()
+        {
+            using (IWebDriver driver = new FirefoxDriver())
+            {
+                output.WriteLine($"{DateTime.Now.ToLongTimeString()} Setting implicit wait");
+                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(35);
+
+                output.WriteLine($"{DateTime.Now.ToLongTimeString()} Navigating to '{HomeUrl}'");
+                driver.Navigate().GoToUrl(HomeUrl);
+
+                output.WriteLine($"{DateTime.Now.ToLongTimeString()} Finding Element");
+                IWebElement AppylLink = driver.FindElement(By.ClassName("customer-service-apply-now"));
+
+                output.WriteLine($"{DateTime.Now.ToLongTimeString()} Found element Displayed={AppylLink.Displayed} Enabled={AppylLink.Enabled}");
                 AppylLink.Click();
                 DemoHelper.Pause();
 
