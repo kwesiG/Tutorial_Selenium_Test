@@ -114,12 +114,12 @@ namespace CreditCards.UITests
         }
 
         [Fact]
-        public void BeInitiatedFromHomePage_CustomerService_ImplicitWait()
+        public void BeInitiatedFromHomePage_CustomerService_ImplicitWait_Fails()
         {
             using (IWebDriver driver = new FirefoxDriver())
             {
                 output.WriteLine($"{DateTime.Now.ToLongTimeString()} Setting implicit wait");
-                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(35);
+                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(12);
 
                 output.WriteLine($"{DateTime.Now.ToLongTimeString()} Navigating to '{HomeUrl}'");
                 driver.Navigate().GoToUrl(HomeUrl);
@@ -133,6 +133,7 @@ namespace CreditCards.UITests
 
                 Assert.Equal("Credit Card Application - Credit Cards", driver.Title);
                 Assert.Equal(EasyApplyUrl, driver.Url);
+                //TODO: Fix later
             }
         }
 
