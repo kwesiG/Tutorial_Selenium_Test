@@ -6,7 +6,7 @@ using OpenQA.Selenium.Chrome;
 
 namespace CreditCards.UITests
 {
-    [Trait("Category","Aplications")]
+    [Trait("Category", "Aplications")]
     public class CreditCardApplicationShould
     {
         private const string HomeUrl = "http://localhost:44108/";
@@ -29,7 +29,7 @@ namespace CreditCards.UITests
 
                 Assert.Equal("Credit Card Application - Credit Cards", driver.Title);
                 Assert.Equal(EasyApplyUrl, driver.Url);
-           };
+            };
         }
 
         [Fact]
@@ -40,7 +40,7 @@ namespace CreditCards.UITests
                 driver.Navigate().GoToUrl(HomeUrl);
                 DemoHelper.Pause();
 
-                IWebElement carouselNext = 
+                IWebElement carouselNext =
                     driver.FindElement(By.CssSelector("[data-slide='next']"));
                 carouselNext.Click();
                 DemoHelper.Pause(1000);// Allow carousel to scroll
@@ -73,6 +73,25 @@ namespace CreditCards.UITests
 
                 IWebElement AppylLink = driver.FindElement(By.ClassName("customer-service-apply-now"));
                 AppylLink.Click();
+                DemoHelper.Pause();
+
+                Assert.Equal("Credit Card Application - Credit Cards", driver.Title);
+                Assert.Equal(EasyApplyUrl, driver.Url);
+            }
+        }
+
+        [Fact]
+        public void BeInitiatedFromHomepage()
+        {
+            using (IWebDriver driver = new FirefoxDriver())
+            {
+                driver.Navigate().GoToUrl(HomeUrl);
+                DemoHelper.Pause();
+
+                IWebElement randomGreetingApplyLink =
+                    driver.FindElement(By.PartialLinkText("- Apply Now!"));
+                randomGreetingApplyLink.Click();
+
                 DemoHelper.Pause();
 
                 Assert.Equal("Credit Card Application - Credit Cards", driver.Title);
