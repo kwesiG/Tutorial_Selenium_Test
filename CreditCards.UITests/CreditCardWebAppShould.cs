@@ -46,6 +46,35 @@ namespace CreditCards.UITests
         }
 
         [Fact]
+        [Trait("Category", "Smoke")]
+        public void LoadHomePage()
+        {
+
+            using (IWebDriver driver = new FirefoxDriver())
+            {
+                driver.Navigate().GoToUrl(HomeUrl);
+                driver.Manage().Window.Maximize();
+                DemoHelper.Pause();
+                driver.Manage().Window.Minimize();
+                DemoHelper.Pause();
+                driver.Manage().Window.Size = new System.Drawing.Size(300, 400);
+                DemoHelper.Pause();
+                driver.Manage().Window.Position = new System.Drawing.Point(1, 1);
+                DemoHelper.Pause();
+                driver.Manage().Window.Position = new System.Drawing.Point(50, 50);
+                DemoHelper.Pause();
+                driver.Manage().Window.Position = new System.Drawing.Point(100, 100);
+                DemoHelper.Pause();
+                driver.Manage().Window.FullScreen();
+
+                DemoHelper.Pause(5000);
+
+                Assert.Equal(HomeTitle, driver.Title);
+                Assert.Equal(HomeUrl, driver.Url);
+            }
+        }
+
+        [Fact]
         [Trait("Category","Smoke")]
         public void ReloadHomePageOnBack()
         {
