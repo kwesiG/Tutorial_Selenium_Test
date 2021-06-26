@@ -74,7 +74,9 @@ namespace CreditCards.UITests
         {
             using (IWebDriver driver = new FirefoxDriver())
             {
+                // driver.Manage().Window.Minimize(); Demonstrates some browser automation brittleness. This line would make the test fail.
                 driver.Navigate().GoToUrl(HomeUrl);
+                driver.Manage().Window.Minimize(); //  By adding this the browser is minimised from view so the mouse pointer hovering no longer affects the carousel
                 DemoHelper.Pause();
 
                 WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(11));
