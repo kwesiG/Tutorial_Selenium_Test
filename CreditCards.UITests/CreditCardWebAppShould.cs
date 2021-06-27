@@ -4,6 +4,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Chrome;
 using System.Collections.ObjectModel;
+using OpenQA.Selenium.Support.UI;
 
 namespace CreditCards.UITests
 {
@@ -165,6 +166,45 @@ namespace CreditCards.UITests
 
                 Assert.Equal("Gold Credit Card", tableCells[4].Text);
                 Assert.Equal("17% APR", tableCells[5].Text);
+            }
+        }
+
+        [Fact]
+        public void OpenContactFooterLinkInNewTab()
+        {
+            using(IWebDriver driver = new FirefoxDriver())
+            {
+                driver.Navigate().GoToUrl(HomeUrl);
+                driver.FindElement(By.Id("ContactFooter")).Click();
+                DemoHelper.Pause();
+
+                ReadOnlyCollection<string> allTabs = driver.WindowHandles;
+                string homePageTab = allTabs[0];
+                string contactTab = allTabs[1];
+
+                driver.SwitchTo().Window(contactTab);
+
+                Assert.Equal("http://localhost:44108/", driver.Url);
+            }
+        }
+
+        [Fact]
+        public void AlertIfLiveChatClosed()
+        {
+            using (IWebDriver driver = new FirefoxDriver())
+            {
+                driver.Navigate().GoToUrl(HomeUrl);
+                driver.FindElement(By.Id("LiveChat")).Click();
+
+                WebDriverWait wait = 
+                    new WebDriverWait(driver, TimeSpan.FromSeconds(5));
+
+                IAlert alert = wait.Until(ExpectedConditions.AlertIsPresent());
+
+                Assert.Equal("Live chat is currently closed.", alert.Text);
+
+                alert.Accept();
+                DemoHelper.Pause();
             }
         }
     }
