@@ -5,6 +5,10 @@ using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Chrome;
 using System.Collections.ObjectModel;
 using OpenQA.Selenium.Support.UI;
+using ApprovalTests.Reporters.Windows;
+using ApprovalTests.Reporters;
+using System.IO;
+using ApprovalTests;
 
 namespace CreditCards.UITests
 {
@@ -251,6 +255,7 @@ namespace CreditCards.UITests
         }
 
         [Fact]
+        [UseReporter(typeof(BeyondCompareReporter))]
         public void RenderAboutPage()
         {
             using(IWebDriver driver = new FirefoxDriver())
@@ -262,6 +267,10 @@ namespace CreditCards.UITests
                 Screenshot screenshot = screenShotDriver.GetScreenshot();
 
                 screenshot.SaveAsFile("aboutpage.bmp", ScreenshotImageFormat.Bmp);
+
+                FileInfo file = new FileInfo("aboutpage.bmp");
+
+                Approvals.Verify(file);
             }
         }
     }
