@@ -249,5 +249,20 @@ namespace CreditCards.UITests
                 Assert.NotNull(driver.FindElement(By.Id("CookiesBeingUsed")));
             }
         }
+
+        [Fact]
+        public void RenderAboutPage()
+        {
+            using(IWebDriver driver = new FirefoxDriver())
+            {
+                driver.Navigate().GoToUrl(AboutUrl);
+
+                ITakesScreenshot screenShotDriver = (ITakesScreenshot)driver;
+
+                Screenshot screenshot = screenShotDriver.GetScreenshot();
+
+                screenshot.SaveAsFile("aboutpage.bmp", ScreenshotImageFormat.Bmp);
+            }
+        }
     }
 }
