@@ -225,5 +225,29 @@ namespace CreditCards.UITests
                 Assert.Equal(HomeTitle, driver.Title);
             }
         }
+
+        [Fact]
+        public void NotDisplayCookieUseMessage()
+        {
+            using (IWebDriver driver = new FirefoxDriver())
+            {
+                driver.Navigate().GoToUrl(HomeUrl);
+                driver.Manage().Cookies.AddCookie(new Cookie("acceptedCookies", "true"));
+                driver.Navigate().Refresh();
+
+                ReadOnlyCollection<IWebElement> message = 
+                    driver.FindElements(By.Id("CookiesBeingUsed"));
+
+                Assert.Empty(message);// This is beauce the FindElements method will not throw an exception if it finds no elements it will just return an empty collection
+
+                Cookie cookieValue = driver.Manage().Cookies.GetCookieNamed("acceptedCookies");
+                Assert.Equal("true", cookieValue.Value);
+
+                driver.Manage().Cookies.DeleteCookieNamed("acceptedCookies");
+                driver.Navigate().Refresh();
+                DemoHelper.Pause(3);
+                Assert.NotNull(driver.FindElement(By.Id("CookiesBeingUsed")));
+            }
+        }
     }
 }
