@@ -207,5 +207,23 @@ namespace CreditCards.UITests
                 DemoHelper.Pause();
             }
         }
+
+        [Fact]
+        public void NotNavigateToAboutUsWhenCancelClicked()
+        {
+            using (IWebDriver driver = new FirefoxDriver())
+            {
+                driver.Navigate().GoToUrl(HomeUrl);
+                driver.FindElement(By.Id("LiveChat")).Click();
+
+                WebDriverWait wait =
+                    new WebDriverWait(driver, TimeSpan.FromSeconds(5));
+
+                IAlert alert = wait.Until(ExpectedConditions.AlertIsPresent());
+
+                alert.Dismiss();
+                Assert.Equal(HomeTitle, driver.Title);
+            }
+        }
     }
 }
