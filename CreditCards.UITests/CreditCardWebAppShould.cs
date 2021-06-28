@@ -17,6 +17,7 @@ namespace CreditCards.UITests
         private const string HomeUrl = "http://localhost:44108/";
         private const string AboutUrl = "http://localhost:44108/Home/About";
         private const string HomeTitle = "Home Page - Credit Cards";
+        private const string ContactUrl = "http://localhost:44108/Home/Contact";
 
         [Fact]
         [Trait("Category", "Smoke")]
@@ -188,7 +189,7 @@ namespace CreditCards.UITests
 
                 driver.SwitchTo().Window(contactTab);
 
-                Assert.Equal("http://localhost:44108/", driver.Url);
+                Assert.Equal(ContactUrl, driver.Url);
             }
         }
 
