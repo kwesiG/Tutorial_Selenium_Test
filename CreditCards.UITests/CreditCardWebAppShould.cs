@@ -9,6 +9,7 @@ using ApprovalTests.Reporters.Windows;
 using ApprovalTests.Reporters;
 using System.IO;
 using ApprovalTests;
+using CreditCards.UITests.PageObjectModel;
 
 namespace CreditCards.UITests
 {
@@ -157,11 +158,11 @@ namespace CreditCards.UITests
             using (IWebDriver driver = new FirefoxDriver())
             {
                 driver.Navigate().GoToUrl(HomeUrl);
+                var homePage = new HomePage(driver);
+
                 DemoHelper.Pause();
 
-                ReadOnlyCollection<IWebElement> tableCells = 
-                    driver.FindElements(By.TagName("td"));
-
+                ReadOnlyCollection<IWebElement> tableCells = homePage.ProductCells;
 
                 Assert.Equal("Easy Credit Card", tableCells[0].Text);
                 Assert.Equal("20% APR", tableCells[1].Text);

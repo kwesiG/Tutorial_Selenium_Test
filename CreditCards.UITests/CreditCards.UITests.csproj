@@ -104,6 +104,7 @@
     <Compile Include="CreditCardApplicationShould.cs" />
     <Compile Include="CreditCardWebAppShould.cs" />
     <Compile Include="DemoHelper.cs" />
+    <Compile Include="PageObjectModel\HomePage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
