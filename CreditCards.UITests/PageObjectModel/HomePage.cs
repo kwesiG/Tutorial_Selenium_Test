@@ -1,5 +1,6 @@
 ﻿
 using OpenQA.Selenium;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace CreditCards.UITests.PageObjectModel
@@ -13,11 +14,21 @@ namespace CreditCards.UITests.PageObjectModel
             Driver = driver;
         }
 
-        public ReadOnlyCollection<IWebElement> ProductCells
+        public ReadOnlyCollection<(string name, string interestRate)> ProductCells
         { 
             get
             {
-            return Driver.FindElements(By.TagName("td"));
+                var products = new List<(string name, string interestRate)>();
+
+                var productCells = Driver.FindElements(By.TagName("td"));
+
+                for (int i = 0; i < productCells.Count -1; i += 2)
+                {
+                    string name = productCells[i].Text;
+                    string interestRate = productCells[i + 1].Text;
+                    products.Add((name, interestRate));
+                }
+                return products.AsReadOnly();
             }
         }
     }
