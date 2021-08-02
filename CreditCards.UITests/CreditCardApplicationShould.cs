@@ -91,7 +91,7 @@ namespace CreditCards.UITests
             using (IWebDriver driver = new FirefoxDriver())
             {
                 output.WriteLine($"{DateTime.Now.ToLongTimeString()} Setting implicit wait");
-                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(12);
+                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2000);
 
                 output.WriteLine($"{DateTime.Now.ToLongTimeString()} Navigating to '{HomeUrl}'");
                 driver.Navigate().GoToUrl(HomeUrl);
